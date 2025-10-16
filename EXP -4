@@ -1,0 +1,82 @@
+#include <stdio.h>
+#define MAX_SIZE 5
+int cqueue[MAX_SIZE];
+int front = -1;
+int rear = -1;
+void enqueue(int element);
+int dequeue();
+int peek();
+void display();
+
+int main() {
+enqueue(10);
+enqueue(20);
+enqueue(30);
+display();
+
+printf("Front element is: %d\n", peek()); // Output: 10
+
+dequeue();
+display();
+
+enqueue(40);
+enqueue(50);
+enqueue(60);
+display();
+
+return 0;
+}
+void enqueue(int element) {
+if ((front == 0 && rear == MAX_SIZE - 1) || (rear + 1) % MAX_SIZE == front) {
+printf("Queue Overflow\n");
+return;
+}
+if (front == -1) {
+front = 0;
+rear = 0;
+}
+else {
+rear = (rear + 1) % MAX_SIZE;
+}
+cqueue[rear] = element;
+}
+
+int dequeue() {
+if (front == -1) {
+printf("Queue Underflow\n");
+return -1; // Indicate failure
+}
+int element = cqueue[front];
+if (front == rear) {
+front = -1;
+rear = -1;
+}
+else {
+front = (front + 1) % MAX_SIZE;
+}
+return element;
+}
+int peek() {
+if (front == -1) {
+printf("Queue is Empty\n");
+return -1;
+}
+return cqueue[front];
+}
+void display() {
+if (front == -1) {
+printf("Queue is Empty\n");
+return;
+
+}
+printf("Elements in the queue: ");
+int i = front;
+while (1) {
+printf("%d ", cqueue[i]);
+if (i == rear) {
+break;
+}
+i = (i + 1) % MAX_SIZE;
+}
+printf("\n");
+}
