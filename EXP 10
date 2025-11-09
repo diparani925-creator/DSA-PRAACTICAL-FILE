@@ -1,0 +1,63 @@
+#include <stdio.h>
+#define MAX 10
+
+int adj[MAX][MAX], visited[MAX], n;
+
+void DFS(int v) {
+    int i;
+    visited[v] = 1;
+    printf("%d ", v);
+    for (i = 0; i < n; i++) {
+        if (adj[v][i] == 1 && visited[i] == 0)
+            DFS(i);
+    }
+}
+
+void BFS(int start) {
+    int queue[MAX], front = 0, rear = -1, i;
+    for (i = 0; i < n; i++)
+        visited[i] = 0;
+
+    queue[++rear] = start;
+    visited[start] = 1;
+
+    while (front <= rear) {
+        int v = queue[front++];
+        printf("%d ", v);
+        for (i = 0; i < n; i++) {
+            if (adj[v][i] == 1 && visited[i] == 0) {
+                queue[++rear] = i;
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int i, j, start, choice;
+
+    printf("Enter number of cities: ");
+    scanf("%d", &n);
+
+    printf("Enter adjacency matrix (%d x %d):\n", n, n);
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            scanf("%d", &adj[i][j]);
+
+    printf("\nEnter starting city (0 to %d): ", n - 1);
+    scanf("%d", &start);
+
+    printf("\n1. DFS Traversal\n2. BFS Traversal\nEnter your choice: ");
+    scanf("%d", &choice);
+
+    for (i = 0; i < n; i++)
+        visited[i] = 0;
+
+    printf("\nCities reachable from city %d:\n", start);
+    if (choice == 1)
+        DFS(start);
+    else
+        BFS(start);
+
+    return 0;
+}
